@@ -1,0 +1,40 @@
+name: mais_devagar
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  cupertino_icons: ^1.0.0
+  equatable: ^2.0.3
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^7.1.0
+  flutter_modular: ^3.3.1
+  fpdart: ^0.0.9
+  location: ^4.3.0
+  google_fonts: ^2.1.0
+  flutter_native_splash: ^1.2.1
+  objectbox: ^1.1.1
+  objectbox_flutter_libs: any
+  font_awesome_flutter: ^9.1.0
+
+dev_dependencies:
+  mocktail: ^0.1.4
+  bloc_test: ^8.1.0
+  lints: ^1.0.1
+  build_runner: ^2.1.1
+  objectbox_generator: any
+  
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
