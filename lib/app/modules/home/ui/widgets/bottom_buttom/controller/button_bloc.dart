@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mais_devagar/app/modules/home/ui/widgets/controller/button_controller/button_event.dart';
-import 'package:mais_devagar/app/modules/home/ui/widgets/controller/button_controller/button_state.dart';
+
+import 'button_event.dart';
+import 'button_state.dart';
 
 class ButtonBloc extends Bloc<ButtonEventChangeButton, ButtonState> {
   ButtonBloc(ButtonState initialState) : super(ButtonStateInital());

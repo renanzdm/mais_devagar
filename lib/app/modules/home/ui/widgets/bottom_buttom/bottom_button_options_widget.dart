@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mais_devagar/app/modules/core/utils/sizes.dart';
-import 'package:mais_devagar/app/modules/home/ui/widgets/button_options_type.dart';
+import 'package:mais_devagar/app/modules/home/ui/widgets/bottom_buttom/button_options_type_widget.dart';
 
 class BottomButtonOptions extends StatelessWidget {
   final List<ButtonOptionsType> buttons;
@@ -11,6 +11,7 @@ class BottomButtonOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 45,
       width: Sizes.maxWidth(context),
       child: Row(children: buttons),
     );

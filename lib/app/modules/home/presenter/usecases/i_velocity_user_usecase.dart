@@ -1,5 +1,6 @@
 import 'package:location/location.dart';
 
-abstract class IVelocityUserUsecase {
- Stream<LocationData> getVelocity();
+abstract class ILocationUserUsecase {
+  Stream<LocationData> listenLocation();
+  Future<LocationData> getLocation();
 }

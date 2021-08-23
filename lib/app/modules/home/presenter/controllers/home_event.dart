@@ -6,18 +6,24 @@ class HomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class HomeEventGetVelocity extends HomeEvent{}
+class HomeEventGetVelocity extends HomeEvent {}
 
-class HomeEventUpdateVelocityUser extends HomeEvent{
-final LocationData location;
+class HomeEventUpdateVelocityUser extends HomeEvent {
+  final LocationData location;
+  final double distance;
 
-  HomeEventUpdateVelocityUser({required this.location});
+  HomeEventUpdateVelocityUser({required this.location, required this.distance});
 
   @override
   List<Object?> get props => [location];
 }
 
-class HomeEventError extends HomeEvent{
+class HomeEventGetInitLatAndLong extends HomeEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class HomeEventError extends HomeEvent {
   final String error;
 
   HomeEventError({required this.error});

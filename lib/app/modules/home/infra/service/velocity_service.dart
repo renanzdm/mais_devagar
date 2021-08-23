@@ -3,15 +3,18 @@ import 'package:mais_devagar/app/modules/home/domain/service/i_velocity_service.
 import 'package:mais_devagar/app/modules/home/infra/drivers/i_velocity_drivers.dart';
 
 class GeolocatorService implements IGeolocatorService {
-  IGeolocatorDrivers velocityDrivers;
+  IGeolocatorDrivers locationDrivers;
   GeolocatorService({
-    required this.velocityDrivers,
+    required this.locationDrivers,
   });
 
   @override
-  Stream<LocationData> getVelocity() {
-    return velocityDrivers.getVelocityUserDriver();
+  Stream<LocationData> listenLocationData() {
+    return locationDrivers.listenLocationUserDriver();
   }
 
-
+  @override
+  Future<LocationData> getLocationData() async {
+    return locationDrivers.getLocationUserDriver();
+  }
 }
