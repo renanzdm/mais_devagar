@@ -7,7 +7,6 @@ class GetPermissionsDevice {
   Future<bool> getPermission() async {
     bool serviceEnabled;
     PermissionStatus permission;
-    _homeModule.enableBackgroundMode(enable: true);
 
     serviceEnabled = await _homeModule.serviceEnabled();
     if (!serviceEnabled) {

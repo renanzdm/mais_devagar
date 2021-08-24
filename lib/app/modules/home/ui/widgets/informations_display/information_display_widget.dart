@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:mais_devagar/app/modules/home/ui/widgets/informations_display/distance_widget.dart';
+import 'distance_widget.dart';
+import 'elapsed_time.dart';
 
 class InformationDisplayWidget extends StatelessWidget {
   const InformationDisplayWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Expanded(child: DistanceWidget()),
-        SizedBox(
-          width: 4,
+        Row(
+          children: [
+            Expanded(child: DistanceWidget()),
+            SizedBox(
+              width: 4,
+            ),
+            Expanded(child: ElapsedTimeWidget()),
+          ],
         ),
-        Expanded(child: DistanceWidget()),
-        SizedBox(
-          width: 4,
+        Row(
+          children: [
+            Expanded(child: DistanceWidget()),
+            SizedBox(
+              width: 4,
+            ),
+            Expanded(child: DistanceWidget()),
+          ],
         ),
-        Expanded(child: DistanceWidget()),
       ],
     );
   }

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:location/location.dart';
 
-abstract class HomeState extends Equatable {
+class HomeState extends Equatable {
   @override
   List<Object?> get props => [];
 }

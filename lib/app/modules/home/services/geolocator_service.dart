@@ -1,17 +1,14 @@
 import 'package:location/location.dart';
-import 'package:mais_devagar/app/modules/home/infra/drivers/i_velocity_drivers.dart';
 
-class GeolocatorDriver extends IGeolocatorDrivers {
+class GeolocatorService {
   final Location location;
 
-  GeolocatorDriver(this.location);
+  GeolocatorService(this.location);
 
-  @override
   Stream<LocationData> listenLocationUserDriver() {
     return location.onLocationChanged;
   }
 
-  @override
   Future<LocationData> getLocationUserDriver() async {
     return await location.getLocation();
   }

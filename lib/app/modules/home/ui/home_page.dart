@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mais_devagar/app/modules/core/utils/sizes.dart';
-import 'package:mais_devagar/app/modules/home/presenter/controllers/home_bloc.dart';
-import 'package:mais_devagar/app/modules/home/presenter/controllers/home_event.dart';
+import 'package:mais_devagar/app/modules/home/controllers/home_bloc.dart';
+import 'package:mais_devagar/app/modules/home/controllers/home_event.dart';
+
 import 'package:mais_devagar/app/modules/home/ui/widgets/bottom_buttom/bottom_button_options_widget.dart';
 import 'package:mais_devagar/app/modules/home/ui/widgets/bottom_buttom/button_options_type_widget.dart';
+import 'package:mais_devagar/app/modules/home/ui/widgets/informations_display/controllers/elapsed_time_bloc.dart';
+import 'package:mais_devagar/app/modules/home/ui/widgets/informations_display/controllers/elapsed_time_event.dart';
 
 import 'widgets/bottom_buttom/controller/button_bloc.dart';
 import 'widgets/bottom_buttom/controller/button_event.dart';
@@ -21,6 +24,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final HomeBloc _homeBloc = Modular.get<HomeBloc>();
+  final ElapsedTimeBloc _elapsedTimeBloc = Modular.get<ElapsedTimeBloc>();
   final ButtonBloc _buttonBloc = Modular.get<ButtonBloc>();
   int indexSelected = 0;
   final List<IconData> _icons = [
@@ -31,7 +35,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _buttonBloc.add(ButtonEventChangeButton(index: 0));
-
     super.initState();
   }
 
@@ -40,6 +43,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
     _homeBloc.close();
     _buttonBloc.close();
+    _elapsedTimeBloc.close();
   }
 
   @override
@@ -55,36 +59,49 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Expanded(
-                flex: 7,
-                child: Center(
-                    child: Container(child: VelocimeterDisplayWidget()))),
+              flex: 3,
+              child: Container(
+                child: VelocimeterDisplayWidget(),
+              ),
+            ),
+            Text(
+              'Km/h',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             Container(
               width: Sizes.maxWidth(context),
-              color: Colors.red,
               child: InformationDisplayWidget(),
             ),
             Expanded(
-                flex: 4,
-                child: Center(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        _homeBloc.add(HomeEventGetInitLatAndLong());
-
-                        _homeBloc.add(HomeEventGetVelocity());
-                      },
-                      child: Text('Iniciar')),
-                )),
+              child: Center(
+                child: ElevatedButton(
+                    onPressed: () {
+                      _homeBloc.add(HomeEventGetInitLatAndLong());
+                      _homeBloc.add(HomeEventGetVelocity());
+                      if (_elapsedTimeBloc.verifyWatchIsRunnig()) {
+                        _elapsedTimeBloc.add(ElapsedTimeEventStop());
+                      } else {
+                        _elapsedTimeBloc.add(ElapsedTimeEventGetTime());
+                      }
+                    },
+                    child: Text('Iniciar')),
+              ),
+            ),
             BottomButtonOptions(
-                buttons: List.generate(
-                    3,
-                    (index) => ButtonOptionsType(
-                          onTap: () {
-                            _buttonBloc
-                                .add(ButtonEventChangeButton(index: index));
-                          },
-                          icon: _icons[index],
-                          indexButton: index,
-                        )))
+              buttons: List.generate(
+                3,
+                (index) => ButtonOptionsType(
+                  onTap: () {
+                    _buttonBloc.add(ButtonEventChangeButton(index: index));
+                  },
+                  icon: _icons[index],
+                  indexButton: index,
+                ),
+              ),
+            ),
           ],
         ),
       ),
