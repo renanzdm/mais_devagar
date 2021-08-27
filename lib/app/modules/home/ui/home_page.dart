@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mais_devagar/app/modules/core/utils/sizes.dart';
-import 'package:mais_devagar/app/modules/home/controllers/home_bloc.dart';
-import 'package:mais_devagar/app/modules/home/controllers/home_event.dart';
+import 'package:mais_devagar/app/modules/home/controllers/home_cubit.dart';
 
-import 'package:mais_devagar/app/modules/home/ui/widgets/bottom_buttom/bottom_button_options_widget.dart';
-import 'package:mais_devagar/app/modules/home/ui/widgets/bottom_buttom/button_options_type_widget.dart';
-import 'package:mais_devagar/app/modules/home/ui/widgets/informations_display/controllers/elapsed_time_bloc.dart';
-import 'package:mais_devagar/app/modules/home/ui/widgets/informations_display/controllers/elapsed_time_event.dart';
-
-import 'widgets/bottom_buttom/controller/button_bloc.dart';
-import 'widgets/bottom_buttom/controller/button_event.dart';
+import 'widgets/bottom_buttom/bottom_button_options_widget.dart';
+import 'widgets/bottom_buttom/button_options_type_widget.dart';
+import 'widgets/bottom_buttom/controller/button_cuibit.dart';
+import 'widgets/informations_display/controllers/elapsed_time_cubit.dart';
 import 'widgets/informations_display/information_display_widget.dart';
 import 'widgets/velocimeter_display/velocimeter_display_widget.dart';
 
@@ -23,27 +19,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final HomeBloc _homeBloc = Modular.get<HomeBloc>();
-  final ElapsedTimeBloc _elapsedTimeBloc = Modular.get<ElapsedTimeBloc>();
-  final ButtonBloc _buttonBloc = Modular.get<ButtonBloc>();
+  final HomeCubit _homeCubit = Modular.get<HomeCubit>();
+  final ElapsedTimeCubit _elapsedTimeCubit = Modular.get<ElapsedTimeCubit>();
+  final ButtonCubit _buttonCubit = Modular.get<ButtonCubit>();
   int indexSelected = 0;
   final List<IconData> _icons = [
     FontAwesomeIcons.tachometerAlt,
     FontAwesomeIcons.digitalTachograph,
     FontAwesomeIcons.mapMarkedAlt,
   ];
-  @override
-  void initState() {
-    _buttonBloc.add(ButtonEventChangeButton(index: 0));
-    super.initState();
-  }
 
   @override
   void dispose() {
     super.dispose();
-    _homeBloc.close();
-    _buttonBloc.close();
-    _elapsedTimeBloc.close();
+    _homeCubit.close();
+    _buttonCubit.close();
+    _elapsedTimeCubit.close();
   }
 
   @override
@@ -78,13 +69,13 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Center(
                 child: ElevatedButton(
-                    onPressed: () {
-                      _homeBloc.add(HomeEventGetInitLatAndLong());
-                      _homeBloc.add(HomeEventGetVelocity());
-                      if (_elapsedTimeBloc.verifyWatchIsRunnig()) {
-                        _elapsedTimeBloc.add(ElapsedTimeEventStop());
+                    onPressed: () async {
+                      if (_elapsedTimeCubit.isRunnig()) {
+                        _elapsedTimeCubit.stopWatch();
                       } else {
-                        _elapsedTimeBloc.add(ElapsedTimeEventGetTime());
+                        await _homeCubit.getInitDistance();
+                        await _homeCubit.fetchLocation();
+                        _elapsedTimeCubit.initTimeWatch();
                       }
                     },
                     child: Text('Iniciar')),
@@ -95,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                 3,
                 (index) => ButtonOptionsType(
                   onTap: () {
-                    _buttonBloc.add(ButtonEventChangeButton(index: index));
+                    _buttonCubit.changeButton(indexClicked: index);
                   },
                   icon: _icons[index],
                   indexButton: index,

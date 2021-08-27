@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mais_devagar/app/modules/core/utils/sizes.dart';
-import 'package:mais_devagar/app/modules/home/controllers/home_bloc.dart';
+import 'package:mais_devagar/app/modules/home/controllers/home_cubit.dart';
 import 'package:mais_devagar/app/modules/home/controllers/home_state.dart';
 import 'package:mais_devagar/app/utils/convert_speed.dart';
 
 class VelocimeterDisplayWidget extends StatelessWidget {
-  final HomeBloc _homeBloc = Modular.get<HomeBloc>();
+  final HomeCubit _homeCubit = Modular.get<HomeCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +16,16 @@ class VelocimeterDisplayWidget extends StatelessWidget {
       width: Sizes.maxWidth(context),
       child: Stack(
         children: [
-          BlocBuilder<HomeBloc, HomeState>(
-            bloc: _homeBloc,
+          BlocBuilder<HomeCubit, HomeState>(
+            bloc: _homeCubit,
             builder: (context, state) {
-              if (state is HomeStateSuccessGetSpeed) {
+              print(state);
+              if (state.speed > 0.0) {
                 return Container(
                   width: 300,
                   child: Text(
                     ConvertSpeed.converMetterPerSecondsForKilometersPerHour(
-                        state.position.speed ?? 0.0),
+                        state.speed),
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontFamily: 'DigitalNumber',

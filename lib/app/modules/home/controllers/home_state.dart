@@ -1,40 +1,24 @@
 import 'package:equatable/equatable.dart';
-import 'package:location/location.dart';
 
 class HomeState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class HomeStateInitial extends HomeState {}
-
-class HomeStateLoading extends HomeState {}
-
-class HomeStateSuccessGetSpeed extends HomeState {
-  final LocationData position;
+  final double speed;
   final double distance;
-  HomeStateSuccessGetSpeed({required this.position, required this.distance});
-
-  @override
-  List<Object?> get props => [position, distance];
-}
-
-class HomeStateGetInitLatAndLong extends HomeState {
-  // final double initLatitude;
-  // final double initLongitude;
-
-  // HomeStateGetInitLatAndLong(
-  //     {required this.initLatitude, required this.initLongitude});
-  @override
-  List<Object?> get props => [];
-}
-
-class HomeStateError extends HomeState {
   final String error;
-  HomeStateError({
-    required this.error,
-  });
+
+  HomeState.initialState()
+      : speed = 0.0,
+        distance = 0.0,
+        error = '';
+
+  HomeState.loadSuccess({
+    required this.speed,
+    required this.distance,
+  }) : error = '';
+
+  HomeState.error({required this.error})
+      : speed = 0.0,
+        distance = 0.0;
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [speed, distance, error];
 }

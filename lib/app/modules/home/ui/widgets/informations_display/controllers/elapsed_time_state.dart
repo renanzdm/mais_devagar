@@ -1,25 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class ElapsedTimeState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class ElapsedTimeStateInitial extends ElapsedTimeState {}
-
-class ElapsedTimeStateWatchRunning extends ElapsedTimeState {
   final int milliseconds;
-
-  ElapsedTimeStateWatchRunning(this.milliseconds);
-  @override
-  List<Object?> get props => [milliseconds];
-}
-
-class ElapsedTimeStateWatchStopped extends ElapsedTimeState {
   final int finalMilliseconds;
 
-  ElapsedTimeStateWatchStopped({this.finalMilliseconds = 0});
+  ElapsedTimeState.initialState()
+      : milliseconds = 0,
+        finalMilliseconds = 0;
+
+  ElapsedTimeState.watchRunning({required this.milliseconds})
+      : finalMilliseconds = 0;
+
+  ElapsedTimeState.stopWatch({this.finalMilliseconds = 0}) : milliseconds = 0;
 
   @override
-  List<Object?> get props => [finalMilliseconds];
+  List<Object?> get props => [milliseconds, finalMilliseconds];
 }
